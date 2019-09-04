@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.kjellvos.aletho.nac.lobby.LobbyController">
+   <center>
+      <VBox maxHeight="900.0" maxWidth="900.0" minHeight="900.0" minWidth="900.0" prefHeight="900.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <children>
+            <ListView fx:id="gamesListView" maxHeight="700.0" maxWidth="900.0" minHeight="700.0" minWidth="900.0" prefHeight="700.0" prefWidth="900.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="cancelButton" maxHeight="200.0" maxWidth="300.0" minHeight="200.0" minWidth="300.0" mnemonicParsing="false" onAction="#goBack" prefHeight="200.0" prefWidth="300.0" text="Cancel" />
+                  <Button fx:id="hostGameButton" maxHeight="200.0" maxWidth="300.0" minHeight="200.0" minWidth="300.0" mnemonicParsing="false" onAction="#hostGame" prefHeight="200.0" prefWidth="300.0" text="Host Game" />
+                  <Button fx:id="joinGameButton" maxHeight="200.0" maxWidth="300.0" minHeight="200.0" minWidth="300.0" mnemonicParsing="false" onAction="#joinGame" prefHeight="200.0" prefWidth="300.0" text="Join Game" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
