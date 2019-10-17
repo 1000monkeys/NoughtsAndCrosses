@@ -104,11 +104,16 @@ public class MultiPlayerMode implements GameMode{
 				alert.setTitle("Game finished.");
 				alert.setHeaderText("And the winner is...");
 				
-				if (winCondition == 1) {
+				if (main.getMutiPlayerMode().isServer() && winCondition == 1) {
 					alert.setContentText("You!");
-				}else if (winCondition == 2){
+				}else if (main.getMutiPlayerMode().isServer() && winCondition == 2){
 					alert.setContentText("The other player!");
+				}else if (!main.getMutiPlayerMode().isServer() && winCondition == 1) {
+					alert.setContentText("The other player!");
+				}else if (!main.getMutiPlayerMode().isServer() && winCondition == 2){
+					alert.setContentText("You!");
 				}
+				
 				gameEnded = true;
 				alert.show();
 			}else if (gameBoardFull()) {
@@ -133,44 +138,60 @@ public class MultiPlayerMode implements GameMode{
 
 	public int winCondition() {
 		//regel 1
-		if (gameBoard[0] == gameBoard[1] && gameBoard[1] == gameBoard[2] && (gameBoard[0] == 1 || gameBoard[0] == 2)) { 
+		if (gameBoard[0] == gameBoard[1] && gameBoard[1] == gameBoard[2] && gameBoard[0] == 1) { 
 			return 1;
+		}else if(gameBoard[0] == gameBoard[1] && gameBoard[1] == gameBoard[2] && gameBoard[0] == 2) {
+			return 2;
 		}
 		
 		//regel 2
-		if (gameBoard[3] == gameBoard[4] && gameBoard[4] == gameBoard[5] && (gameBoard[3] == 1 || gameBoard[3] == 2)) {
+		if (gameBoard[3] == gameBoard[4] && gameBoard[4] == gameBoard[5] && gameBoard[3] == 1) {
 			return 1;
+		}else if(gameBoard[3] == gameBoard[4] && gameBoard[4] == gameBoard[5] && gameBoard[3] == 2) {
+			return 2;
 		}
 		
 		//regel 3
-		if (gameBoard[6] == gameBoard[7] && gameBoard[7] == gameBoard[8] && (gameBoard[6] == 1 || gameBoard[6] == 2)) {
+		if (gameBoard[6] == gameBoard[7] && gameBoard[7] == gameBoard[8] && gameBoard[6] == 1) {
 			return 1;
+		}else if(gameBoard[6] == gameBoard[7] && gameBoard[7] == gameBoard[8] && gameBoard[6] == 2) {
+			return 2;
 		}
 
 		
 		//verticaal 1
-		if (gameBoard[0] == gameBoard[3] && gameBoard[3] == gameBoard[6] && (gameBoard[0] == 1 || gameBoard[0] == 2)) {
+		if (gameBoard[0] == gameBoard[3] && gameBoard[3] == gameBoard[6] && gameBoard[0] == 1) {
 			return 1;
+		}else if(gameBoard[0] == gameBoard[3] && gameBoard[3] == gameBoard[6] && gameBoard[0] == 2) {
+			return 2;
 		}
 		
 		//verticaal 2
-		if (gameBoard[1] == gameBoard[4] && gameBoard[4] == gameBoard[7] && (gameBoard[1] == 1 || gameBoard[1] == 2)) {
+		if (gameBoard[1] == gameBoard[4] && gameBoard[4] == gameBoard[7] && gameBoard[1] == 1) {
 			return 1;
+		}else if(gameBoard[1] == gameBoard[4] && gameBoard[4] == gameBoard[7] && gameBoard[1] == 2) {
+			return 2;
 		}
 		
 		//verticaal 3
-		if (gameBoard[2] == gameBoard[5] && gameBoard[5] == gameBoard[8] && (gameBoard[2] == 1 || gameBoard[2] == 2)) {
+		if (gameBoard[2] == gameBoard[5] && gameBoard[5] == gameBoard[8] && gameBoard[2] == 1) {
 			return 1;
+		}else if(gameBoard[2] == gameBoard[5] && gameBoard[5] == gameBoard[8] && gameBoard[2] == 2) {
+			return 2;
 		}
 		
 		//diagonaal 1
-		if (gameBoard[0] == gameBoard[4] && gameBoard[4] == gameBoard[8] && (gameBoard[0] == 1 || gameBoard[0] == 2)) {
+		if (gameBoard[0] == gameBoard[4] && gameBoard[4] == gameBoard[8] && gameBoard[0] == 1) {
 			return 1;
+		}else if(gameBoard[0] == gameBoard[4] && gameBoard[4] == gameBoard[8] && gameBoard[0] == 2) {
+			return 2;
 		}
 		
 		//diagonaal 2
-		if (gameBoard[2] == gameBoard[4] && gameBoard[4] == gameBoard[6] && (gameBoard[2] == 1 || gameBoard[2] == 2)) {
+		if (gameBoard[2] == gameBoard[4] && gameBoard[4] == gameBoard[6] && gameBoard[2] == 1) {
 			return 1;
+		}else if(gameBoard[2] == gameBoard[4] && gameBoard[4] == gameBoard[6] && gameBoard[2] == 2) {
+			return 2;
 		}
 		
 		return 0;
