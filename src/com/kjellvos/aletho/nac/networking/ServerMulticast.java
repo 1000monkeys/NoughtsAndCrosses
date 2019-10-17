@@ -28,7 +28,7 @@ public class ServerMulticast extends Thread {
 		
 		byte[] buffer = broadcastJSON.getBytes();
 		
-		while (Server.searching) {
+		while (server.getIsSearching()) {
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length, group, PORT);
             try {
 				socket.send(packet);

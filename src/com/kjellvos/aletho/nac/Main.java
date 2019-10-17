@@ -11,6 +11,9 @@ import org.json.JSONObject;
 
 import com.kjellvos.aletho.nac.canvas.GameCanvasController;
 import com.kjellvos.aletho.nac.gamemode.GameMode;
+import com.kjellvos.aletho.nac.gamemode.MultiPlayerMode;
+import com.kjellvos.aletho.nac.networking.Client;
+import com.kjellvos.aletho.nac.networking.Server;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -25,7 +28,35 @@ public class Main extends Application{
 	private Stage primaryStage;
 	private List<Scene> sceneList = new ArrayList<Scene>();
 
-	private String multiplayerStateJSON = null;
+	private Client client;
+	private Server server;
+	
+	private String multiplayerStateJSON = "{GameState: [0, 0, 0, 0, 0, 0, 0, 0, 0]}";
+	private MultiPlayerMode multiPlayerMode = null;
+	
+	public void setClient(Client client) {
+		this.client = client;
+	}
+	
+	public Client getClient() {
+		return client;
+	}
+	
+	public void setServer(Server server) {
+		this.server = server;
+	}
+	
+	public Server getServer() {
+		return server;
+	}
+	
+	public MultiPlayerMode getMutiPlayerMode() {
+		return multiPlayerMode;
+	}
+	
+	public void setMultiPlayerMode(MultiPlayerMode multiPlayerMode) {
+		this.multiPlayerMode = multiPlayerMode;
+	}
 	
 	public void changeScene(String fxml){	
 		FXMLLoader loader = new FXMLLoader();

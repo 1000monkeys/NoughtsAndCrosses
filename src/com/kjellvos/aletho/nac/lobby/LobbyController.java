@@ -7,26 +7,24 @@ import org.json.JSONObject;
 
 import com.kjellvos.aletho.nac.Main;
 import com.kjellvos.aletho.nac.ScreenController;
-import com.kjellvos.aletho.nac.gamemode.MultiPlayerMode;
 import com.kjellvos.aletho.nac.networking.Client;
 import com.kjellvos.aletho.nac.networking.ClientMulticast;
 import com.kjellvos.aletho.nac.networking.Server;
 import com.kjellvos.aletho.nac.networking.ServerMulticast;
 
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 
-public class LobbyController extends Thread implements ScreenController {
+public class LobbyController implements ScreenController {
 	private Main main;
 	private ClientMulticast clientMulticast;
 	private Client client;
-	private boolean gameStarted = false;
-	private boolean gameLoaded = false;
 
+	private ServerMulticast serverMulticast = null;
+	
 	@FXML
 	private BorderPane borderPane;
 	@FXML
@@ -45,30 +43,11 @@ public class LobbyController extends Thread implements ScreenController {
 		clientMulticast.start();
 	}
 
-	@Override
-	public void run() {
-		try {
-			while (Server.searching) {
-				String message = client.getMessage();
-				// System.out.println("Got message: " + message);
-
-				if (message.equals(
-						"{\"action\":\"changeScene\",\"scene\":\"/com/kjellvos/aletho/nac/canvas/GameCanvas.fxml\"}")) {
-					gameStarted = true;
-
-					
-
-					interrupt();
-				}
-				sleep(1000);
-			}
-		} catch (InterruptedException e) {
-		}
-	}
-
 	public void goBack() {
 		if (joinGameButton.isDisable()) {
-			// stop hosting
+			if (serverMulticast != null) {
+				serverMulticast.interrupt();
+			}
 			joinGameButton.setDisable(false);
 		} else {
 			main.goBackScene();
@@ -77,10 +56,8 @@ public class LobbyController extends Thread implements ScreenController {
 
 	public void hostGame() {
 		InetAddress ip = null;
-		String hostname = null;
 		try {
 			ip = InetAddress.getLocalHost();
-			hostname = ip.getHostAddress();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -90,29 +67,17 @@ public class LobbyController extends Thread implements ScreenController {
 		ServerMulticast serverMulticast = new ServerMulticast(server);
 		serverMulticast.setJSON(broadcastJSON);
 		serverMulticast.start();
+		main.setServer(server);
 		server.start();
-
+		
 		joinGameButton.setDisable(true);
 	}
 
 	public void joinGame() {
 		LobbyGame lobbyGame = gamesListView.getSelectionModel().getSelectedItem();
 
-		InetAddress ip = null;
-		String hostname = null;
-		try {
-			ip = InetAddress.getLocalHost();
-			hostname = ip.getHostAddress();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-
-		String JSON = new JSONObject("{\"ip\": \"" + ip.getHostAddress() + "\"}").toString();
-
-		client = new Client(lobbyGame.getIp(), main);
-		client.start();
-
-		start();
+		main.setClient(new Client(main, lobbyGame.getIp()));
+		main.getClient().start();
 	}
 
 	public void setGamesList(ObservableList<LobbyGame> gamesList) {

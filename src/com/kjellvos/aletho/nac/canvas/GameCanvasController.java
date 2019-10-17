@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import com.kjellvos.aletho.nac.Main;
 import com.kjellvos.aletho.nac.ScreenController;
 import com.kjellvos.aletho.nac.gamemode.GameMode;
+import com.kjellvos.aletho.nac.gamemode.MultiPlayerMode;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,7 +21,6 @@ import javafx.util.Duration;
 
 public class GameCanvasController implements ScreenController{
 	private Main main;
-	private boolean online = false;
 	@FXML private Canvas gameCanvas;
 	private Image board, nought, cross;
 	private GameMode gameMode = null;
@@ -66,6 +66,10 @@ public class GameCanvasController implements ScreenController{
 	
 	public void setGameMode(GameMode gameMode) {
 		this.gameMode = gameMode;
+		
+		if (gameMode instanceof MultiPlayerMode) {
+			
+		}
 	}
 	
 	public void canvasClicked(MouseEvent mouseEvent) {
